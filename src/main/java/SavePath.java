@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -6,7 +8,11 @@ import java.util.Properties;
 public final class SavePath {
     static HashMap<String,ArrayList<String>> path_map = new HashMap<>();
 
-    public SavePath() {
+    public SavePath() throws IOException {
+        Properties properties = new Properties();
+        String propFile = "secret.properties";
+        URL props = ClassLoader.getSystemResource(propFile);
+        properties.load(props.openStream());
         long beforeTime = System.currentTimeMillis();
         System.out.println("path 추가 중..");
         Event.textarea.append("path 추가 중..");
@@ -18,7 +24,7 @@ public final class SavePath {
             System.out.println("OS : Windows");
             Event.textarea.append("OS : Windows");
 
-            scan_folder_name ="\\\\172.25.13.151\\코코아과제관련공유\\14_코코아 국가정보화\\설문지_전자파일화\\설문지 스캔 파일";
+            scan_folder_name =properties.getProperty("ID");
         }
         else if (osName.contains("mac"))
         {
